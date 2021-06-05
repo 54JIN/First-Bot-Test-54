@@ -12,23 +12,51 @@ client.on('ready', () => {
     console.log('Our bot is ready to go!!!!')
 })
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
 
     /* split the content of the command from discord chat line */
     const parts = message.content.split(' ');
 
+    /* All the commands of the bot */
+    if(parts[0] == '!commands'){
+        message.reply('!addRole\n!rmRole\n!stock')
+    }
+    
     /* Adding roles to users */
-    if (parts[0] == '!role') {
-        for(let i = 1; i < parts.length; i++){
-            const role = parts[i] == 'red'? RED_ROLE : parts[i] == 'blue'? BLUE_ROLE : parts[i] == 'green'? GREEN_ROLE : null;
-            if(role != null){
-                message.member.roles.add(role);
+    else if (parts[0] == '!addRole') {
+        if(!message.member.hasPermission('MANAGE_ROLES')){
+            message.reply('Sorry pal you don\'t have permission to do that! 😢')
+        }
+        else{
+            let rMember = message.guild.member(message.mentions.users.first()) || message.member
+            for(let i = 1; i < parts.length; i++){
+                const role = parts[i] == 'red'? RED_ROLE : parts[i] == 'blue'? BLUE_ROLE : parts[i] == 'green'? GREEN_ROLE : null;
+                if(role != null){
+                    rMember.roles.add(role);
+                }
             }
         }
     }
 
+    /* Removing roles to users */
+    else if(parts[0] =='!rmRole'){
+        if(!message.member.hasPermission('MANAGE_ROLES')){
+            message.reply('Sorry pal you don\'t have permission to do that! 😢')
+        }
+        else{
+            let rMember = message.guild.member(message.mentions.users.first()) || message.member
+            for(let i = 1; i < parts.length; i++){
+                const role = parts[i] == 'red'? RED_ROLE : parts[i] == 'blue'? BLUE_ROLE : parts[i] == 'green'? GREEN_ROLE : null;
+                if(role != null){
+                    rMember.roles.remove(role);
+                }
+            }
+        }
+    }
+
+
     /* Stocks */
-    if(parts[0] == '!stock'){
+    else if(parts[0] == '!stock'){
         stock_price(parts[1],(res) => {
             if(res == 'Unable to connect to IEX-stock API!' || res == 'Please type in a valid company stock symbol!'){
                 message.reply(res);
