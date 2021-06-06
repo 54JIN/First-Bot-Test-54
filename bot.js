@@ -64,7 +64,7 @@ client.on('message', async (message) => {
 
     else if(parts[0] == '!tic_tac_toe'){
         message.reply('Begining game')
-        tic_tac_toe(message.author.username)
+        tic_tac_toe(message.author.id)
     }
 
     /* Stocks */
