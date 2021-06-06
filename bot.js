@@ -5,7 +5,7 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 const request = require(`request`)
 const stock_price = require('./utils/stock_price')
-const tic_tac_toe = require('./games/gameFunctions/tic_tac_toe')
+const {tic_tac_toe_Create, tic_tac_toe_Move} = require('./games/gameFunctions/tic_tac_toe')
 
 const RED_ROLE = '850374490218299453';
 const BLUE_ROLE = '850375387530919966';
@@ -63,8 +63,8 @@ client.on('message', async (message) => {
     }
 
     else if(parts[0] == '!tic_tac_toe'){
-        message.reply('Begining game')
-        tic_tac_toe(message.author.id)
+        let result = await tic_tac_toe_Create(message.author.id)
+        message.reply(result)
     }
 
     /* Stocks */
@@ -77,9 +77,6 @@ client.on('message', async (message) => {
                 message.reply(`Symbol: ${res.symbol}\nDate: ${res.date}\nOpen: ${res.open}\nClose: ${res.close}\nHigh: ${res.high}`);
             }
         })
-    }
-    else if(parts[0] == '!tic_tac_toe'){
-
     }
 })
 

@@ -1,11 +1,35 @@
 const mongoose = require('mongoose')
 
 const tic_tac_toeSchema = new mongoose.Schema({
-    name: {
+    userID: {
         type: String
     },
-    age: {
-        type: Number
+    topLeft: {
+        type: String
+    },
+    topMiddle: {
+        type: String
+    },
+    topRight: {
+        type: String
+    },
+    left: {
+        type: String
+    },
+    middle: {
+        type: String
+    },
+    right: {
+        type: String
+    },
+    botLeft: {
+        type: String
+    },
+    botMiddle: {
+        type: String
+    },
+    botRight: {
+        type: String
     }
 })
 
