@@ -11,12 +11,22 @@ const tic_tac_toe_Create = async (userIDs) => {
         })
         try{
             await ticTacToe.save()
-            return 'Begining game'
+            return 'Begining game\n📦|📦|📦\n📦|📦|📦\n📦|📦|📦'
         }catch{
             return 'Error saving user'
         }
     }
 }
+
+const tic_tac_toe_Reset = async (userIDs) => {
+    try{
+        await TicTacToe.findOneAndRemove({userID: userIDs})
+        return 'Reset Game'
+    }catch(e){
+        return 'Error reseting user'
+    }
+}
+
 
 const tic_tac_toe_Move = (move) => {
 
@@ -24,5 +34,6 @@ const tic_tac_toe_Move = (move) => {
 
 module.exports = {
     tic_tac_toe_Create,
+    tic_tac_toe_Reset,
     tic_tac_toe_Move
 }

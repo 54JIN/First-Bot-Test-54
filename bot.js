@@ -5,7 +5,7 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 const request = require(`request`)
 const stock_price = require('./utils/stock_price')
-const {tic_tac_toe_Create, tic_tac_toe_Move} = require('./games/gameFunctions/tic_tac_toe')
+const {tic_tac_toe_Create, tic_tac_toe_Move, tic_tac_toe_Reset} = require('./games/gameFunctions/tic_tac_toe')
 
 const RED_ROLE = '850374490218299453';
 const BLUE_ROLE = '850375387530919966';
@@ -22,7 +22,7 @@ client.on('message', async (message) => {
 
     /* All the commands of the bot */
     if(parts[0] == '!commands'){
-        message.reply('!addRole\n!rmRole\n!stock')
+        message.reply('!addRole\n!rmRole\n!stock\n!games')
     }
     
     /* Adding roles to users */
@@ -63,8 +63,14 @@ client.on('message', async (message) => {
     }
 
     else if(parts[0] == '!tic_tac_toe'){
-        let result = await tic_tac_toe_Create(message.author.id)
-        message.reply(result)
+        if(parts[1] == 'reset'){
+            let result = await tic_tac_toe_Reset(message.author.id)
+            message.reply(result)
+        }
+        else{
+            let result = await tic_tac_toe_Create(message.author.id)
+            message.reply(result)
+        }
     }
 
     /* Stocks */
