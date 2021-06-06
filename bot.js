@@ -1,8 +1,11 @@
 require('dotenv').config()
+require('./db/mongoose')
 
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const request = require(`request`)
 const stock_price = require('./utils/stock_price')
+const tic_tac_toe = require('./games/gameFunctions/tic_tac_toe')
 
 const RED_ROLE = '850374490218299453';
 const BLUE_ROLE = '850375387530919966';
@@ -54,6 +57,15 @@ client.on('message', async (message) => {
         }
     }
 
+    /* Games */
+    else if(parts[0] == '!games'){
+        message.reply('!tic_tac_toe')
+    }
+
+    else if(parts[0] == '!tic_tac_toe'){
+        message.reply('Begining game')
+        tic_tac_toe(message.author.username)
+    }
 
     /* Stocks */
     else if(parts[0] == '!stock'){
@@ -65,6 +77,9 @@ client.on('message', async (message) => {
                 message.reply(`Symbol: ${res.symbol}\nDate: ${res.date}\nOpen: ${res.open}\nClose: ${res.close}\nHigh: ${res.high}`);
             }
         })
+    }
+    else if(parts[0] == '!tic_tac_toe'){
+
     }
 })
 
