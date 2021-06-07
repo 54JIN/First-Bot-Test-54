@@ -114,13 +114,18 @@ const tic_tac_toe_Reset = async (user1IDs, user2IDs) => {
 
 
 const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
-    const ticTacGameInProgress = await tic_tac_toe_InProgress(user1IDs, user2IDs)
-
-    user1IDs = ticTacGameInProgress.user1ID
-    user2IDs = ticTacGameInProgress.user2ID
-
-    const playerPiece = user1IDs == player? 'X': user2IDs == player? 'O': '📦'
     try{
+        const ticTacGameInProgress = await tic_tac_toe_InProgress(user1IDs, user2IDs)
+        
+        if(ticTacGameInProgress == null){
+            throw new Error()
+        }
+
+        user1IDs = ticTacGameInProgress.user1ID
+        user2IDs = ticTacGameInProgress.user2ID
+
+        const playerPiece = user1IDs == player? 'X': user2IDs == player? 'O': '📦'
+
         if(playerPiece == '📦'){
             throw new Error('Player not found')
         }
@@ -170,7 +175,7 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
             return `${await tic_tac_toe_Print(user1IDs, user2IDs)}`
         }
     }catch (e) {
-        return 'Error! Try Again'
+        return 'Error, GAME NOT FOUND! '
     }
 }
 
