@@ -65,7 +65,7 @@ client.on('message', async (message) => {
     /* Tic Tac Toe */
     else if(parts[0] == '!tic_tac_toe'){
         if(parts[1] == 'reset'){
-            let result = await tic_tac_toe_Reset(message.author.id)
+            let result = await tic_tac_toe_Reset(message.author.id, message.mentions.members.first().id)
             message.reply(result)
         }
         else if(parts[1] == 'multiplayer' && message.mentions.members.first().id){

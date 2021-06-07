@@ -55,11 +55,21 @@ const tic_tac_toe_Create = async (user1IDs, user2IDs) => {
 }
 
 const tic_tac_toe_Reset = async (user1IDs, user2IDs) => {
+
     try{
-        await TicTacToe.findOneAndRemove({user1ID: user1IDs, user2IDs})
+        const ticTacGameInProgress = await tic_tac_toe_InProgress(user1IDs, user2IDs)
+        
+        if(ticTacGameInProgress == null){
+            throw new Error()
+        }
+
+        user1IDs = ticTacGameInProgress.user1ID
+        user2IDs = ticTacGameInProgress.user2ID
+
+        await TicTacToe.findOneAndRemove({user1ID: user1IDs, user2ID: user2IDs})
         return 'Reset Game'
-    }catch(e){
-        return 'Error reseting user'
+    } catch(e){
+        return 'Error Reseting Game!'
     }
 }
 
