@@ -1,13 +1,14 @@
 const TicTacToe = require('../gameModels/tic_tac_toe')
 
-const tic_tac_toe_Create = async (userIDs) => {
-    const ticTac = await TicTacToe.findOne({userID: userIDs})
+const tic_tac_toe_Create = async (user1IDs, user2IDs) => {
+    const ticTac = await TicTacToe.findOne({user1ID: user1IDs, user2ID: user2IDs})
     if(ticTac){
         return 'Game in progress, wanna continue? If so reply: !Continue tic_tac_toe'
     }
     else{
         const ticTacToe = new TicTacToe({
-            userID: userIDs
+            user1ID: user1IDs,
+            user2ID: user2IDs
         })
         try{
             await ticTacToe.save()
@@ -18,9 +19,9 @@ const tic_tac_toe_Create = async (userIDs) => {
     }
 }
 
-const tic_tac_toe_Reset = async (userIDs) => {
+const tic_tac_toe_Reset = async (user1IDs, user2IDs) => {
     try{
-        await TicTacToe.findOneAndRemove({userID: userIDs})
+        await TicTacToe.findOneAndRemove({user1ID: user1IDs, user2IDs})
         return 'Reset Game'
     }catch(e){
         return 'Error reseting user'

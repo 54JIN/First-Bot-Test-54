@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const tic_tac_toeSchema = new mongoose.Schema({
-    userID: {
+    user1ID: {
+        type: String
+    },
+    user2ID: {
         type: String
     },
     topLeft: {

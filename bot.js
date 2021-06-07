@@ -67,8 +67,8 @@ client.on('message', async (message) => {
             let result = await tic_tac_toe_Reset(message.author.id)
             message.reply(result)
         }
-        else{
-            let result = await tic_tac_toe_Create(message.author.id)
+        else if(parts[1] == 'multiplayer' && message.mentions.members.first().id){
+            let result = await tic_tac_toe_Create(message.author.id, message.mentions.members.first().id)
             message.reply(result)
         }
     }
