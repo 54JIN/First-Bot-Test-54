@@ -57,6 +57,9 @@ const tic_tac_toe_Finished = async (user1IDs, user2IDs) => {
         else if(ticTacGameInProgress.topRight == ticTacGameInProgress.middle && ticTacGameInProgress.topRight == ticTacGameInProgress.botLeft && ticTacGameInProgress.topRight != '📦'){
             return `\n${ticTacGameInProgress.topRight} Won the Game!!!`
         }
+        else if(ticTacGameInProgress.topRight != '📦' && ticTacGameInProgress.topMiddle != '📦' && ticTacGameInProgress.topLeft != '📦' && ticTacGameInProgress.left != '📦' && ticTacGameInProgress.middle != '📦' && ticTacGameInProgress.right != '📦' && ticTacGameInProgress.botLeft != '📦' && ticTacGameInProgress.botMiddle != '📦' && ticTacGameInProgress.botRight != '📦'){
+            return '\nGame Over No One Won 😢'
+        }
         else{
             return null
         }
