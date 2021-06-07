@@ -76,6 +76,9 @@ client.on('message', async (message) => {
             let result = await tic_tac_toe_Move(message.author.id, message.mentions.members.first().id, parts[1], message.author.id)
             message.reply(result)
         }
+        else if(parts[1] == 'commands'){
+            message.reply('!tic_tac_toe reset @mentionPlayer\n!tic_tac_toe multiplayer @mentionPlayer\n!tic_tac_toe (topLeft or topMid or topRight or left or middle or right or botLeft or botMid or botRight)')
+        }
     }
 
     /* Stocks */
