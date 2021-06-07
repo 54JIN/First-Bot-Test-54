@@ -62,6 +62,7 @@ client.on('message', async (message) => {
         message.reply('!tic_tac_toe')
     }
 
+    /* Tic Tac Toe */
     else if(parts[0] == '!tic_tac_toe'){
         if(parts[1] == 'reset'){
             let result = await tic_tac_toe_Reset(message.author.id)
@@ -69,6 +70,10 @@ client.on('message', async (message) => {
         }
         else if(parts[1] == 'multiplayer' && message.mentions.members.first().id){
             let result = await tic_tac_toe_Create(message.author.id, message.mentions.members.first().id)
+            message.reply(result)
+        }
+        else if(message.mentions.members.first().id && parts[1] == 'topLeft'|| parts[1] == 'topMid'|| parts[1] == 'topRight'|| parts[1] == 'left'|| parts[1] == 'middle'|| parts[1] == 'right'|| parts[1] == 'botLeft'|| parts[1] == 'botMid'|| parts[1] == 'botRight'){
+            let result = await tic_tac_toe_Move(message.author.id, message.mentions.members.first().id, parts[1], message.author.id)
             message.reply(result)
         }
     }
