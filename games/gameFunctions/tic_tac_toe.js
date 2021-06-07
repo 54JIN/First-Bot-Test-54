@@ -26,6 +26,45 @@ const tic_tac_toe_InProgress = async (user1IDs, user2IDs) => {
     }
 }
 
+const tic_tac_toe_Finished = async (user1IDs, user2IDs) => {
+    try{
+        const ticTacGameInProgress = await tic_tac_toe_InProgress(user1IDs, user2IDs)
+        
+        if(ticTacGameInProgress == null){
+            throw new Error()
+        }
+        if(ticTacGameInProgress.topLeft == ticTacGameInProgress.topMiddle && ticTacGameInProgress.topLeft == ticTacGameInProgress.topRight && ticTacGameInProgress.topLeft != '📦'){
+            return `\n${ticTacGameInProgress.topLeft} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.topLeft == ticTacGameInProgress.middle && ticTacGameInProgress.topLeft == ticTacGameInProgress.botRight && ticTacGameInProgress.topLeft != '📦'){
+            return `\n${ticTacGameInProgress.topLeft} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.left == ticTacGameInProgress.middle && ticTacGameInProgress.left == ticTacGameInProgress.right && ticTacGameInProgress.left != '📦'){
+            return `\n${ticTacGameInProgress.left} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.botLeft == ticTacGameInProgress.botMiddle && ticTacGameInProgress.botLeft == ticTacGameInProgress.botRight && ticTacGameInProgress.botLeft != '📦'){
+            return `\n${ticTacGameInProgress.botLeft} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.topMiddle == ticTacGameInProgress.middle && ticTacGameInProgress.topMiddle == ticTacGameInProgress.botMiddle && ticTacGameInProgress.topMiddle != '📦'){
+            return `\n${ticTacGameInProgress.topMiddle} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.topRight == ticTacGameInProgress.right && ticTacGameInProgress.topRight == ticTacGameInProgress.botRight && ticTacGameInProgress.topRight != '📦'){
+            return `\n${ticTacGameInProgress.topRight} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.topLeft == ticTacGameInProgress.left && ticTacGameInProgress.topLeft == ticTacGameInProgress.botLeft && ticTacGameInProgress.topLeft != '📦'){
+            return `\n${ticTacGameInProgress.topLeft} Won the Game!!!`
+        }
+        else if(ticTacGameInProgress.topRight == ticTacGameInProgress.middle && ticTacGameInProgress.topRight == ticTacGameInProgress.botLeft && ticTacGameInProgress.topRight != '📦'){
+            return `\n${ticTacGameInProgress.topRight} Won the Game!!!`
+        }
+        else{
+            return null
+        }
+    } catch(e){
+        return null
+    }
+}
+
 const tic_tac_toe_Create = async (user1IDs, user2IDs) => {
     const ticTac = await tic_tac_toe_InProgress(user1IDs, user2IDs)
     if(ticTac){
@@ -121,7 +160,15 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
             const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botRight: playerPiece})
             await game.save()
         }
-        return `${await tic_tac_toe_Print(user1IDs, user2IDs)}`
+        const gameFinished = await tic_tac_toe_Finished(user1IDs, user2IDs)
+        if(gameFinished){
+            const returnResult = `${await tic_tac_toe_Print(user1IDs, user2IDs)}\n${gameFinished}`
+            await tic_tac_toe_Reset(user1IDs, user2IDs)
+            return returnResult
+        }
+        else{
+            return `${await tic_tac_toe_Print(user1IDs, user2IDs)}`
+        }
     }catch (e) {
         return 'Error! Try Again'
     }
