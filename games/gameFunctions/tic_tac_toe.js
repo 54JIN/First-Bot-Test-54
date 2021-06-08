@@ -1,17 +1,21 @@
 const TicTacToe = require('../gameModels/tic_tac_toe')
 
 const tic_tac_toe_Print = async (player1, player2) => {
-    const ticTacGame = await TicTacToe.findOne({user1ID: player1, user2ID: player2})
-    const topLeft = await ticTacGame.topLeft
-    const topMiddle = await ticTacGame.topMiddle
-    const topRight = await ticTacGame.topRight
-    const left = await ticTacGame.left
-    const middle = await ticTacGame.middle
-    const right = await ticTacGame.right
-    const botLeft = await ticTacGame.botLeft
-    const botMiddle = await ticTacGame.botMiddle
-    const botRight = await ticTacGame.botRight
-    return `\n${topLeft}|${topMiddle}|${topRight}\n${left}|${middle}|${right}\n${botLeft}|${botMiddle}|${botRight}`
+    try{
+        const ticTacGame = await TicTacToe.findOne({user1ID: player1, user2ID: player2})
+        const topLeft = await ticTacGame.topLeft
+        const topMiddle = await ticTacGame.topMiddle
+        const topRight = await ticTacGame.topRight
+        const left = await ticTacGame.left
+        const middle = await ticTacGame.middle
+        const right = await ticTacGame.right
+        const botLeft = await ticTacGame.botLeft
+        const botMiddle = await ticTacGame.botMiddle
+        const botRight = await ticTacGame.botRight
+        return `\n${topLeft}|${topMiddle}|${topRight}\n${left}|${middle}|${right}\n${botLeft}|${botMiddle}|${botRight}`
+    } catch(e){
+        return ' Game Not Found'
+    }
 }
 
 const tic_tac_toe_InProgress = async (user1IDs, user2IDs) => {
@@ -119,7 +123,7 @@ const tic_tac_toe_Reset = async (user1IDs, user2IDs) => {
 const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
     try{
         const ticTacGameInProgress = await tic_tac_toe_InProgress(user1IDs, user2IDs)
-        
+
         if(ticTacGameInProgress == null){
             throw new Error()
         }
