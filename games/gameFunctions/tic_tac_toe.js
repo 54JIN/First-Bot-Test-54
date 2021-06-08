@@ -89,7 +89,8 @@ const tic_tac_toe_Create = async (user1IDs, user2IDs) => {
             right: '📦',
             botLeft: '📦',
             botMiddle: '📦',
-            botRight: '📦'
+            botRight: '📦',
+            currentPlayer: 'O'
         })
         try{
             await ticTacToe.save()
@@ -131,10 +132,13 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
         user1IDs = ticTacGameInProgress.user1ID
         user2IDs = ticTacGameInProgress.user2ID
 
-        const playerPiece = user1IDs == player? 'X': user2IDs == player? 'O': '📦'
+        let playerPiece = user1IDs == player? 'X': user2IDs == player? 'O': '📦'
 
         if(playerPiece == '📦'){
             throw new Error('Player not found')
+        }
+        if(playerPiece != ticTacGameInProgress.currentPlayer){
+            throw new Error('Not Your Turn 😢\n')
         }
         if(move == 'topLeft'){
             if(ticTacGameInProgress.topLeft != '📦'){
@@ -224,6 +228,9 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
             return returnResult
         }
         else{
+            playerPiece = playerPiece == 'X'? 'O': 'X'
+            const saveGamePiece = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{currentPlayer: playerPiece})
+            await saveGamePiece.save()
             return `${await tic_tac_toe_Print(user1IDs, user2IDs)}`
         }
     }catch (e) {

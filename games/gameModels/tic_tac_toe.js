@@ -33,6 +33,9 @@ const tic_tac_toeSchema = new mongoose.Schema({
     },
     botRight: {
         type: String
+    },
+    currentPlayer: {
+        type: String
     }
 })
 
