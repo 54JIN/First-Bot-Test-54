@@ -133,40 +133,85 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
             throw new Error('Player not found')
         }
         if(move == 'topLeft'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topLeft: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.topLeft != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topLeft: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'topMid'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topMiddle: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.topMiddle != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topMiddle: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'topRight'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topRight: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.topRight != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{topRight: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'left'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{left: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.left != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{left: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'middle'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{middle: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.middle != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{middle: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'right'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{right: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.right != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{right: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'botLeft'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botLeft: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.botLeft != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botLeft: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'botMid'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botMiddle: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.botMiddle != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botMiddle: playerPiece})
+                await game.save()
+            }
         }
         else if(move == 'botRight'){
-            const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botRight: playerPiece})
-            await game.save()
+            if(ticTacGameInProgress.botRight != '📦'){
+                throw new Error('Move already made!')
+            }
+            else{
+                const game = await TicTacToe.findOneAndUpdate({user1ID: user1IDs, user2ID: user2IDs},{botRight: playerPiece})
+                await game.save()
+            }
         }
         const gameFinished = await tic_tac_toe_Finished(user1IDs, user2IDs)
         if(gameFinished){
@@ -178,7 +223,7 @@ const tic_tac_toe_Move = async (user1IDs, user2IDs, move, player) => {
             return `${await tic_tac_toe_Print(user1IDs, user2IDs)}`
         }
     }catch (e) {
-        return 'Error, GAME NOT FOUND! '
+        return `${e}${await tic_tac_toe_Print(user1IDs, user2IDs)}`
     }
 }
 
