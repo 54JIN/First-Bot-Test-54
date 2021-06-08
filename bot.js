@@ -1,12 +1,20 @@
 require('dotenv').config()
 require('./db/mongoose')
 
+/* npm packages */
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const request = require(`request`)
+
+/* Utils */
 const stock_price = require('./utils/stock_price')
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+
+/* Games */
 const {tic_tac_toe_Create, tic_tac_toe_Move, tic_tac_toe_Reset} = require('./games/gameFunctions/tic_tac_toe')
 
+/* Discord ROlE IDs */
 const RED_ROLE = '850374490218299453';
 const BLUE_ROLE = '850375387530919966';
 const GREEN_ROLE = '850375438458814524';
@@ -22,7 +30,7 @@ client.on('message', async (message) => {
 
     /* All the commands of the bot */
     if(parts[0] == '!commands'){
-        message.reply('!addRole\n!rmRole\n!stock\n!games')
+        message.reply('!addRole (role)\n!rmRole (role)\n!stock (ticker, ex: AAPL)\n!games\n!weather (location)')
     }
     
     /* Adding roles to users */
@@ -90,6 +98,26 @@ client.on('message', async (message) => {
             else{
                 message.reply(`Symbol: ${res.symbol}\nDate: ${res.date}\nOpen: ${res.open}\nClose: ${res.close}\nHigh: ${res.high}`);
             }
+        })
+    }
+
+    /* Weather */
+    else if(parts[0] == '!weather'){
+        let address = ''
+        for(let i = 1; i < parts.length; i++){
+            address += `${parts[i]} `
+        }
+        geocode(address, (error, {latitude, longitude, location} = {}) => {
+            if(error){
+                return message.reply(error)
+            }
+            forecast(latitude, longitude, (error, forecastData) => {
+                if(error){
+                    return message.reply(error)
+                }
+
+                message.reply(`\n${location}\n${forecastData}`)
+            })
         })
     }
 })
