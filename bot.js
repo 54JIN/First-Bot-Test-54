@@ -13,6 +13,7 @@ const forecast = require('./utils/forecast')
 
 /* Games */
 const {tic_tac_toe_Create, tic_tac_toe_Move, tic_tac_toe_Reset} = require('./games/gameFunctions/tic_tac_toe')
+const {create_Task, delete_Task, update_Task, print_Tasks} = require('./utils/task/functionality/task.js')
 
 /* Discord ROlE IDs */
 const RED_ROLE = '850374490218299453';
@@ -30,7 +31,7 @@ client.on('message', async (message) => {
 
     /* All the commands of the bot */
     if(parts[0] == '!commands'){
-        message.reply('!addRole (role)\n!rmRole (role)\n!stock (ticker, ex: AAPL)\n!games\n!weather (location)')
+        message.reply('!addRole (role)\n!rmRole (role)\n!stock (ticker, ex: AAPL)\n!games\n!weather (location)\n!task commands')
     }
     
     /* Adding roles to users */
@@ -119,6 +120,41 @@ client.on('message', async (message) => {
                 message.reply(`\n${location}\n${forecastData}`)
             })
         })
+    }
+
+    /* Task Manage */
+    else if(parts[0] == '!task'){
+        if(parts.length > 1 && parts[1] == 'commands'){
+            message.reply('\n!task /*This will print all the task currently held by you)*/\n!task toDo (Description of Task)\n!task remove (Description of task to remove)\n!task complete (Descrition of task to update to complete)\n!task uncomplete (Description of task to update to uncomplete)')
+        }
+        else if(parts.length > 2 && parts[1] == 'toDo' ){
+            let toDoTask = ''
+            for(let i = 2; i < parts.length; i++){
+                toDoTask += `${parts[i]} `
+            }
+            const result = await create_Task(toDoTask, message.author.id)
+            message.reply(result)
+        }
+        else if(parts.length > 2 && parts[1] == 'remove'){
+            let removeTask = ''
+            for(let i = 2; i < parts.length; i++){
+                removeTask += `${parts[i]} `
+            }
+            const result = await delete_Task(removeTask, message.author.id)
+            message.reply(result)
+        }
+        else if(parts.length > 2 && (parts[1] == 'complete' || parts[1] == 'uncomplete')){
+            let toDoTask = ''
+            for(let i = 2; i < parts.length; i++){
+                toDoTask += `${parts[i]} `
+            }
+            const result = await update_Task(toDoTask, message.author.id, (parts[1] == 'complete'? true: false))
+            message.reply(result)
+        }
+        else{
+            const result = await print_Tasks(message.author.id)
+            message.reply(`\n${result}`)
+        }
     }
 })
 
