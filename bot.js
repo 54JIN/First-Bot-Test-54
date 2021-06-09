@@ -5,6 +5,7 @@ require('./db/mongoose')
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const request = require(`request`)
+const schedule = require('node-schedule')
 
 /* Utils */
 const stock_price = require('./utils/stock_price')
@@ -19,6 +20,8 @@ const {create_Task, delete_Task, update_Task, print_Tasks} = require('./utils/ta
 const RED_ROLE = '850374490218299453';
 const BLUE_ROLE = '850375387530919966';
 const GREEN_ROLE = '850375438458814524';
+
+let amtRemind = 0
 
 client.on('ready', () => {
     console.log('Our bot is ready to go!!!!')
@@ -155,6 +158,40 @@ client.on('message', async (message) => {
             const result = await print_Tasks(message.author.id)
             message.reply(`\n${result}`)
         }
+    }
+
+    /* Reminders */
+    else if(parts[0] == '!setReminder'){
+        if(parts.length > 6){
+            const someDate = new Date(`${parts[1]} ${parts[2]} ${parts[3]} ${parts[4]} ${parts[5]} GMT-0400 (Eastern Daylight Time)`)
+            if(amtRemind < 2){
+                let reminder = ''
+                for(let i = 6; i < parts.length; i++){
+                    reminder += `${parts[i]} `
+                }
+                amtRemind++
+                schedule.scheduleJob(`${amtRemind}`,someDate, () => {
+                    amtRemind--
+                    message.reply(reminder)
+                })
+            }
+            else{
+                message.reply(`Too many active reminders. Max reminders allowed 2! Current amount: ${amtRemind}`)
+            }
+        }
+        else{
+            message.reply('\n!setReminder (weekDay, Ex: Monday-Sunday) (Month) (Day, Ex: 09) (Year) (Time, Ex: 01:47:50 (Hour:Minute:Second)) (Reminder Description)')
+        }
+    }
+    else if(parts[0] == '!resetReminders'){
+        schedule.cancelJob('1')
+        schedule.cancelJob('2')
+        amtRemind = 0
+        message.reply(`Active Reminders: ${amtRemind}`)
+    }
+
+    else if(parts[0] == '!activeReminders'){
+        message.reply(amtRemind)
     }
 })
 
