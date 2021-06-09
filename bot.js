@@ -34,7 +34,7 @@ client.on('message', async (message) => {
 
     /* All the commands of the bot */
     if(parts[0] == '!commands'){
-        message.reply('!addRole (role)\n!rmRole (role)\n!stock (ticker, ex: AAPL)\n!games\n!weather (location)\n!task commands')
+        message.reply('!addRole (role)\n!rmRole (role)\n!stock (ticker, ex: AAPL)\n!games\n!weather (location)\n!task commands\n!setReminder (Displays the commands to which you can create a reminder)')
     }
     
     /* Adding roles to users */
@@ -180,7 +180,7 @@ client.on('message', async (message) => {
             }
         }
         else{
-            message.reply('\n!setReminder (weekDay, Ex: Monday-Sunday) (Month) (Day, Ex: 09) (Year) (Time, Ex: 01:47:50 (Hour:Minute:Second)) (Reminder Description)')
+            message.reply('\n!setReminder (weekDay, Ex: Monday-Sunday) (Month) (Day, Ex: 09) (Year) (Time, Ex: 01:47:50 (Hour:Minute:Second)) (Reminder Description)\n!resetReminders (resets both (2) reminders)\n!activeReminders (Displays the amount of reminders currently active)')
         }
     }
     else if(parts[0] == '!resetReminders'){
